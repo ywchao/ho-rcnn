@@ -1,0 +1,1527 @@
+name: "CaffeNet"
+layer {
+  name: 'data'
+  type: 'Python'
+  top: 'data_h'
+  top: 'data_o'
+  top: 'data_p'
+  top: 'score_o'
+  top: 'labels'
+  python_param {
+    module: 'hoi_data_layer.layer'
+    layer: 'HOIDataLayer'
+    param_str: "'num_classes': 600"
+  }
+}
+###########################################################################
+# human stream
+###########################################################################
+layer {
+  name: "conv1_h"
+  type: "Convolution"
+  bottom: "data_h"
+  top: "conv1_h"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 96
+    kernel_size: 11
+    # pad: 5
+    stride: 4
+  }
+}
+layer {
+  name: "relu1_h"
+  type: "ReLU"
+  bottom: "conv1_h"
+  top: "conv1_h"
+}
+layer {
+  name: "pool1_h"
+  type: "Pooling"
+  bottom: "conv1_h"
+  top: "pool1_h"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    # pad: 1
+    stride: 2
+  }
+}
+layer {
+  name: "norm1_h"
+  type: "LRN"
+  bottom: "pool1_h"
+  top: "norm1_h"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+layer {
+  name: "conv2_h"
+  type: "Convolution"
+  bottom: "norm1_h"
+  top: "conv2_h"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 5
+    pad: 2
+    group: 2
+  }
+}
+layer {
+  name: "relu2_h"
+  type: "ReLU"
+  bottom: "conv2_h"
+  top: "conv2_h"
+}
+layer {
+  name: "pool2_h"
+  type: "Pooling"
+  bottom: "conv2_h"
+  top: "pool2_h"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    # pad: 1
+    stride: 2
+  }
+}
+layer {
+  name: "norm2_h"
+  type: "LRN"
+  bottom: "pool2_h"
+  top: "norm2_h"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+layer {
+  name: "conv3_h"
+  type: "Convolution"
+  bottom: "norm2_h"
+  top: "conv3_h"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 384
+    kernel_size: 3
+    pad: 1
+  }
+}
+layer {
+  name: "relu3_h"
+  type: "ReLU"
+  bottom: "conv3_h"
+  top: "conv3_h"
+}
+layer {
+  name: "conv4_h"
+  type: "Convolution"
+  bottom: "conv3_h"
+  top: "conv4_h"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 384
+    kernel_size: 3
+    pad: 1
+    group: 2
+  }
+}
+layer {
+  name: "relu4_h"
+  type: "ReLU"
+  bottom: "conv4_h"
+  top: "conv4_h"
+}
+layer {
+  name: "conv5_h"
+  type: "Convolution"
+  bottom: "conv4_h"
+  top: "conv5_h"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    pad: 1
+    group: 2
+  }
+}
+layer {
+  name: "relu5_h"
+  type: "ReLU"
+  bottom: "conv5_h"
+  top: "conv5_h"
+}
+layer {
+  name: "pool5_h"
+  type: "Pooling"
+  bottom: "conv5_h"
+  top: "pool5_h"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "fc6_h"
+  type: "InnerProduct"
+  bottom: "pool5_h"
+  top: "fc6_h"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 4096
+  }
+}
+layer {
+  name: "relu6_h"
+  type: "ReLU"
+  bottom: "fc6_h"
+  top: "fc6_h"
+}
+layer {
+  name: "drop6_h"
+  type: "Dropout"
+  bottom: "fc6_h"
+  top: "fc6_h"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc7_h"
+  type: "InnerProduct"
+  bottom: "fc6_h"
+  top: "fc7_h"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 4096
+  }
+}
+layer {
+  name: "relu7_h"
+  type: "ReLU"
+  bottom: "fc7_h"
+  top: "fc7_h"
+}
+layer {
+  name: "drop7_h"
+  type: "Dropout"
+  bottom: "fc7_h"
+  top: "fc7_h"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "cls_score_vo_h"
+  type: "InnerProduct"
+  bottom: "fc7_h"
+  top: "cls_score_vo_h"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 600
+    weight_filler {
+      type: "gaussian"
+      std: 0.0001
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+###########################################################################
+# object stream
+###########################################################################
+layer {
+  name: "conv1_o"
+  type: "Convolution"
+  bottom: "data_o"
+  top: "conv1_o"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 96
+    kernel_size: 11
+    # pad: 5
+    stride: 4
+  }
+}
+layer {
+  name: "relu1_o"
+  type: "ReLU"
+  bottom: "conv1_o"
+  top: "conv1_o"
+}
+layer {
+  name: "pool1_o"
+  type: "Pooling"
+  bottom: "conv1_o"
+  top: "pool1_o"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    # pad: 1
+    stride: 2
+  }
+}
+layer {
+  name: "norm1_o"
+  type: "LRN"
+  bottom: "pool1_o"
+  top: "norm1_o"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+layer {
+  name: "conv2_o"
+  type: "Convolution"
+  bottom: "norm1_o"
+  top: "conv2_o"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 5
+    pad: 2
+    group: 2
+  }
+}
+layer {
+  name: "relu2_o"
+  type: "ReLU"
+  bottom: "conv2_o"
+  top: "conv2_o"
+}
+layer {
+  name: "pool2_o"
+  type: "Pooling"
+  bottom: "conv2_o"
+  top: "pool2_o"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    # pad: 1
+    stride: 2
+  }
+}
+layer {
+  name: "norm2_o"
+  type: "LRN"
+  bottom: "pool2_o"
+  top: "norm2_o"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+layer {
+  name: "conv3_o"
+  type: "Convolution"
+  bottom: "norm2_o"
+  top: "conv3_o"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 384
+    kernel_size: 3
+    pad: 1
+  }
+}
+layer {
+  name: "relu3_o"
+  type: "ReLU"
+  bottom: "conv3_o"
+  top: "conv3_o"
+}
+layer {
+  name: "conv4_o"
+  type: "Convolution"
+  bottom: "conv3_o"
+  top: "conv4_o"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 384
+    kernel_size: 3
+    pad: 1
+    group: 2
+  }
+}
+layer {
+  name: "relu4_o"
+  type: "ReLU"
+  bottom: "conv4_o"
+  top: "conv4_o"
+}
+layer {
+  name: "conv5_o"
+  type: "Convolution"
+  bottom: "conv4_o"
+  top: "conv5_o"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    pad: 1
+    group: 2
+  }
+}
+layer {
+  name: "relu5_o"
+  type: "ReLU"
+  bottom: "conv5_o"
+  top: "conv5_o"
+}
+layer {
+  name: "pool5_o"
+  type: "Pooling"
+  bottom: "conv5_o"
+  top: "pool5_o"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "fc6_o"
+  type: "InnerProduct"
+  bottom: "pool5_o"
+  top: "fc6_o"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 4096
+  }
+}
+layer {
+  name: "relu6_o"
+  type: "ReLU"
+  bottom: "fc6_o"
+  top: "fc6_o"
+}
+layer {
+  name: "drop6_o"
+  type: "Dropout"
+  bottom: "fc6_o"
+  top: "fc6_o"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc7_o"
+  type: "InnerProduct"
+  bottom: "fc6_o"
+  top: "fc7_o"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 4096
+  }
+}
+layer {
+  name: "relu7_o"
+  type: "ReLU"
+  bottom: "fc7_o"
+  top: "fc7_o"
+}
+layer {
+  name: "drop7_o"
+  type: "Dropout"
+  bottom: "fc7_o"
+  top: "fc7_o"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "cls_score_vo_o"
+  type: "InnerProduct"
+  bottom: "fc7_o"
+  top: "cls_score_vo_o"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 600
+    weight_filler {
+      type: "gaussian"
+      std: 0.0001
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+########################################################################### 
+# pairwise stream 
+########################################################################### 
+layer { 
+  name: "fc1_p" 
+  type: "InnerProduct" 
+  bottom: "data_p" 
+  top: "fc1_p" 
+  param { 
+    lr_mult: 1 
+    decay_mult: 1 
+  } 
+  param { 
+    lr_mult: 2 
+    decay_mult: 0 
+  } 
+  inner_product_param { 
+    num_output: 128
+    weight_filler { 
+      type: "xavier" 
+    } 
+    bias_filler { 
+      type: "constant" 
+      value: 0.2 
+    } 
+  } 
+} 
+layer { 
+  name: "relu1_p" 
+  type: "ReLU" 
+  bottom: "fc1_p" 
+  top: "fc1_p" 
+} 
+layer { 
+  name: "fc2_p" 
+  type: "InnerProduct" 
+  bottom: "fc1_p" 
+  top: "fc2_p" 
+  param { 
+    lr_mult: 1 
+    decay_mult: 1 
+  } 
+  param { 
+    lr_mult: 2 
+    decay_mult: 0 
+  } 
+  inner_product_param { 
+    num_output: 512 
+    weight_filler { 
+      type: "xavier" 
+    } 
+    bias_filler { 
+      type: "constant" 
+      value: 0.2 
+    } 
+  } 
+} 
+layer { 
+  name: "relu2_p" 
+  type: "ReLU" 
+  bottom: "fc2_p" 
+  top: "fc2_p" 
+} 
+layer { 
+  name: "fc3_p" 
+  type: "InnerProduct" 
+  bottom: "fc2_p" 
+  top: "fc3_p" 
+  param { 
+    lr_mult: 1 
+    decay_mult: 1 
+  } 
+  param { 
+    lr_mult: 2 
+    decay_mult: 0 
+  } 
+  inner_product_param { 
+    num_output: 256 
+    weight_filler { 
+      type: "xavier" 
+    } 
+    bias_filler { 
+      type: "constant" 
+      value: 0.2 
+    } 
+  } 
+} 
+layer { 
+  name: "relu3_p" 
+  type: "ReLU" 
+  bottom: "fc3_p" 
+  top: "fc3_p" 
+} 
+layer { 
+  name: "cls_score_vo_p" 
+  type: "InnerProduct" 
+  bottom: "fc3_p" 
+  top: "cls_score_vo_p" 
+  param { 
+    lr_mult: 1 
+    decay_mult: 1 
+  } 
+  param { 
+    lr_mult: 2 
+    decay_mult: 0 
+  } 
+  inner_product_param { 
+    num_output: 600 
+    weight_filler { 
+      type: "gaussian" 
+      std: 0.0001
+    } 
+    bias_filler { 
+      type: "constant" 
+      value: 0
+    } 
+  } 
+}
+###########################################################################
+# vo classification
+###########################################################################
+layer {
+  name: "cls_score_vo"
+  type: "Eltwise"
+  bottom: "cls_score_vo_h"
+  bottom: "cls_score_vo_o"
+  bottom: "cls_score_vo_p"
+  top: "cls_score_vo"
+  eltwise_param {
+    operation: 1;
+  }
+}
+###########################################################################
+# o classification
+###########################################################################
+layer {
+  name: "cls_score_o_int"
+  type: "InnerProduct"
+  bottom: "score_o"
+  top: "cls_score_o_int"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 80
+    weight_filler {
+      type: "gaussian"
+      std: 0.0001
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "slicer_o_int"
+  type: "Slice"
+  bottom: "cls_score_o_int"
+  top: "cls_score_o_01_person"
+  top: "cls_score_o_02_bicycle"
+  top: "cls_score_o_03_car"
+  top: "cls_score_o_04_motorcycle"
+  top: "cls_score_o_05_airplane"
+  top: "cls_score_o_06_bus"
+  top: "cls_score_o_07_train"
+  top: "cls_score_o_08_truck"
+  top: "cls_score_o_09_boat"
+  top: "cls_score_o_10_traffic_light"
+  top: "cls_score_o_11_fire_hydrant"
+  top: "cls_score_o_12_stop_sign"
+  top: "cls_score_o_13_parking_meter"
+  top: "cls_score_o_14_bench"
+  top: "cls_score_o_15_bird"
+  top: "cls_score_o_16_cat"
+  top: "cls_score_o_17_dog"
+  top: "cls_score_o_18_horse"
+  top: "cls_score_o_19_sheep"
+  top: "cls_score_o_20_cow"
+  top: "cls_score_o_21_elephant"
+  top: "cls_score_o_22_bear"
+  top: "cls_score_o_23_zebra"
+  top: "cls_score_o_24_giraffe"
+  top: "cls_score_o_25_backpack"
+  top: "cls_score_o_26_umbrella"
+  top: "cls_score_o_27_handbag"
+  top: "cls_score_o_28_tie"
+  top: "cls_score_o_29_suitcase"
+  top: "cls_score_o_30_frisbee"
+  top: "cls_score_o_31_skis"
+  top: "cls_score_o_32_snowboard"
+  top: "cls_score_o_33_sports_ball"
+  top: "cls_score_o_34_kite"
+  top: "cls_score_o_35_baseball_bat"
+  top: "cls_score_o_36_baseball_glove"
+  top: "cls_score_o_37_skateboard"
+  top: "cls_score_o_38_surfboard"
+  top: "cls_score_o_39_tennis_racket"
+  top: "cls_score_o_40_bottle"
+  top: "cls_score_o_41_wine_glass"
+  top: "cls_score_o_42_cup"
+  top: "cls_score_o_43_fork"
+  top: "cls_score_o_44_knife"
+  top: "cls_score_o_45_spoon"
+  top: "cls_score_o_46_bowl"
+  top: "cls_score_o_47_banana"
+  top: "cls_score_o_48_apple"
+  top: "cls_score_o_49_sandwich"
+  top: "cls_score_o_50_orange"
+  top: "cls_score_o_51_broccoli"
+  top: "cls_score_o_52_carrot"
+  top: "cls_score_o_53_hot_dog"
+  top: "cls_score_o_54_pizza"
+  top: "cls_score_o_55_donut"
+  top: "cls_score_o_56_cake"
+  top: "cls_score_o_57_chair"
+  top: "cls_score_o_58_couch"
+  top: "cls_score_o_59_potted_plant"
+  top: "cls_score_o_60_bed"
+  top: "cls_score_o_61_dining_table"
+  top: "cls_score_o_62_toilet"
+  top: "cls_score_o_63_tv"
+  top: "cls_score_o_64_laptop"
+  top: "cls_score_o_65_mouse"
+  top: "cls_score_o_66_remote"
+  top: "cls_score_o_67_keyboard"
+  top: "cls_score_o_68_cell_phone"
+  top: "cls_score_o_69_microwave"
+  top: "cls_score_o_70_oven"
+  top: "cls_score_o_71_toaster"
+  top: "cls_score_o_72_sink"
+  top: "cls_score_o_73_refrigerator"
+  top: "cls_score_o_74_book"
+  top: "cls_score_o_75_clock"
+  top: "cls_score_o_76_vase"
+  top: "cls_score_o_77_scissors"
+  top: "cls_score_o_78_teddy_bear"
+  top: "cls_score_o_79_hair_drier"
+  top: "cls_score_o_80_toothbrush"
+  slice_param {
+    axis: 1
+    slice_point: 1
+    slice_point: 2
+    slice_point: 3
+    slice_point: 4
+    slice_point: 5
+    slice_point: 6
+    slice_point: 7
+    slice_point: 8
+    slice_point: 9
+    slice_point: 10
+    slice_point: 11
+    slice_point: 12
+    slice_point: 13
+    slice_point: 14
+    slice_point: 15
+    slice_point: 16
+    slice_point: 17
+    slice_point: 18
+    slice_point: 19
+    slice_point: 20
+    slice_point: 21
+    slice_point: 22
+    slice_point: 23
+    slice_point: 24
+    slice_point: 25
+    slice_point: 26
+    slice_point: 27
+    slice_point: 28
+    slice_point: 29
+    slice_point: 30
+    slice_point: 31
+    slice_point: 32
+    slice_point: 33
+    slice_point: 34
+    slice_point: 35
+    slice_point: 36
+    slice_point: 37
+    slice_point: 38
+    slice_point: 39
+    slice_point: 40
+    slice_point: 41
+    slice_point: 42
+    slice_point: 43
+    slice_point: 44
+    slice_point: 45
+    slice_point: 46
+    slice_point: 47
+    slice_point: 48
+    slice_point: 49
+    slice_point: 50
+    slice_point: 51
+    slice_point: 52
+    slice_point: 53
+    slice_point: 54
+    slice_point: 55
+    slice_point: 56
+    slice_point: 57
+    slice_point: 58
+    slice_point: 59
+    slice_point: 60
+    slice_point: 61
+    slice_point: 62
+    slice_point: 63
+    slice_point: 64
+    slice_point: 65
+    slice_point: 66
+    slice_point: 67
+    slice_point: 68
+    slice_point: 69
+    slice_point: 70
+    slice_point: 71
+    slice_point: 72
+    slice_point: 73
+    slice_point: 74
+    slice_point: 75
+    slice_point: 76
+    slice_point: 77
+    slice_point: 78
+    slice_point: 79
+  }
+}
+layer {
+  name: "cls_score_o"
+  bottom: "cls_score_o_05_airplane"
+  bottom: "cls_score_o_05_airplane"
+  bottom: "cls_score_o_05_airplane"
+  bottom: "cls_score_o_05_airplane"
+  bottom: "cls_score_o_05_airplane"
+  bottom: "cls_score_o_05_airplane"
+  bottom: "cls_score_o_05_airplane"
+  bottom: "cls_score_o_05_airplane"
+  bottom: "cls_score_o_05_airplane"
+  bottom: "cls_score_o_05_airplane"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_02_bicycle"
+  bottom: "cls_score_o_15_bird"
+  bottom: "cls_score_o_15_bird"
+  bottom: "cls_score_o_15_bird"
+  bottom: "cls_score_o_15_bird"
+  bottom: "cls_score_o_15_bird"
+  bottom: "cls_score_o_15_bird"
+  bottom: "cls_score_o_15_bird"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_09_boat"
+  bottom: "cls_score_o_40_bottle"
+  bottom: "cls_score_o_40_bottle"
+  bottom: "cls_score_o_40_bottle"
+  bottom: "cls_score_o_40_bottle"
+  bottom: "cls_score_o_40_bottle"
+  bottom: "cls_score_o_40_bottle"
+  bottom: "cls_score_o_40_bottle"
+  bottom: "cls_score_o_40_bottle"
+  bottom: "cls_score_o_06_bus"
+  bottom: "cls_score_o_06_bus"
+  bottom: "cls_score_o_06_bus"
+  bottom: "cls_score_o_06_bus"
+  bottom: "cls_score_o_06_bus"
+  bottom: "cls_score_o_06_bus"
+  bottom: "cls_score_o_06_bus"
+  bottom: "cls_score_o_06_bus"
+  bottom: "cls_score_o_06_bus"
+  bottom: "cls_score_o_06_bus"
+  bottom: "cls_score_o_06_bus"
+  bottom: "cls_score_o_03_car"
+  bottom: "cls_score_o_03_car"
+  bottom: "cls_score_o_03_car"
+  bottom: "cls_score_o_03_car"
+  bottom: "cls_score_o_03_car"
+  bottom: "cls_score_o_03_car"
+  bottom: "cls_score_o_03_car"
+  bottom: "cls_score_o_03_car"
+  bottom: "cls_score_o_03_car"
+  bottom: "cls_score_o_03_car"
+  bottom: "cls_score_o_03_car"
+  bottom: "cls_score_o_16_cat"
+  bottom: "cls_score_o_16_cat"
+  bottom: "cls_score_o_16_cat"
+  bottom: "cls_score_o_16_cat"
+  bottom: "cls_score_o_16_cat"
+  bottom: "cls_score_o_16_cat"
+  bottom: "cls_score_o_16_cat"
+  bottom: "cls_score_o_16_cat"
+  bottom: "cls_score_o_16_cat"
+  bottom: "cls_score_o_16_cat"
+  bottom: "cls_score_o_57_chair"
+  bottom: "cls_score_o_57_chair"
+  bottom: "cls_score_o_57_chair"
+  bottom: "cls_score_o_57_chair"
+  bottom: "cls_score_o_57_chair"
+  bottom: "cls_score_o_57_chair"
+  bottom: "cls_score_o_58_couch"
+  bottom: "cls_score_o_58_couch"
+  bottom: "cls_score_o_58_couch"
+  bottom: "cls_score_o_58_couch"
+  bottom: "cls_score_o_20_cow"
+  bottom: "cls_score_o_20_cow"
+  bottom: "cls_score_o_20_cow"
+  bottom: "cls_score_o_20_cow"
+  bottom: "cls_score_o_20_cow"
+  bottom: "cls_score_o_20_cow"
+  bottom: "cls_score_o_20_cow"
+  bottom: "cls_score_o_20_cow"
+  bottom: "cls_score_o_20_cow"
+  bottom: "cls_score_o_20_cow"
+  bottom: "cls_score_o_20_cow"
+  bottom: "cls_score_o_61_dining_table"
+  bottom: "cls_score_o_61_dining_table"
+  bottom: "cls_score_o_61_dining_table"
+  bottom: "cls_score_o_61_dining_table"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_17_dog"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_18_horse"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_04_motorcycle"
+  bottom: "cls_score_o_01_person"
+  bottom: "cls_score_o_01_person"
+  bottom: "cls_score_o_01_person"
+  bottom: "cls_score_o_01_person"
+  bottom: "cls_score_o_01_person"
+  bottom: "cls_score_o_01_person"
+  bottom: "cls_score_o_01_person"
+  bottom: "cls_score_o_01_person"
+  bottom: "cls_score_o_01_person"
+  bottom: "cls_score_o_01_person"
+  bottom: "cls_score_o_59_potted_plant"
+  bottom: "cls_score_o_59_potted_plant"
+  bottom: "cls_score_o_59_potted_plant"
+  bottom: "cls_score_o_59_potted_plant"
+  bottom: "cls_score_o_19_sheep"
+  bottom: "cls_score_o_19_sheep"
+  bottom: "cls_score_o_19_sheep"
+  bottom: "cls_score_o_19_sheep"
+  bottom: "cls_score_o_19_sheep"
+  bottom: "cls_score_o_19_sheep"
+  bottom: "cls_score_o_19_sheep"
+  bottom: "cls_score_o_19_sheep"
+  bottom: "cls_score_o_19_sheep"
+  bottom: "cls_score_o_19_sheep"
+  bottom: "cls_score_o_19_sheep"
+  bottom: "cls_score_o_19_sheep"
+  bottom: "cls_score_o_07_train"
+  bottom: "cls_score_o_07_train"
+  bottom: "cls_score_o_07_train"
+  bottom: "cls_score_o_07_train"
+  bottom: "cls_score_o_07_train"
+  bottom: "cls_score_o_07_train"
+  bottom: "cls_score_o_07_train"
+  bottom: "cls_score_o_07_train"
+  bottom: "cls_score_o_63_tv"
+  bottom: "cls_score_o_63_tv"
+  bottom: "cls_score_o_63_tv"
+  bottom: "cls_score_o_63_tv"
+  bottom: "cls_score_o_48_apple"
+  bottom: "cls_score_o_48_apple"
+  bottom: "cls_score_o_48_apple"
+  bottom: "cls_score_o_48_apple"
+  bottom: "cls_score_o_48_apple"
+  bottom: "cls_score_o_48_apple"
+  bottom: "cls_score_o_48_apple"
+  bottom: "cls_score_o_48_apple"
+  bottom: "cls_score_o_48_apple"
+  bottom: "cls_score_o_48_apple"
+  bottom: "cls_score_o_25_backpack"
+  bottom: "cls_score_o_25_backpack"
+  bottom: "cls_score_o_25_backpack"
+  bottom: "cls_score_o_25_backpack"
+  bottom: "cls_score_o_25_backpack"
+  bottom: "cls_score_o_25_backpack"
+  bottom: "cls_score_o_47_banana"
+  bottom: "cls_score_o_47_banana"
+  bottom: "cls_score_o_47_banana"
+  bottom: "cls_score_o_47_banana"
+  bottom: "cls_score_o_47_banana"
+  bottom: "cls_score_o_47_banana"
+  bottom: "cls_score_o_47_banana"
+  bottom: "cls_score_o_47_banana"
+  bottom: "cls_score_o_47_banana"
+  bottom: "cls_score_o_47_banana"
+  bottom: "cls_score_o_35_baseball_bat"
+  bottom: "cls_score_o_35_baseball_bat"
+  bottom: "cls_score_o_35_baseball_bat"
+  bottom: "cls_score_o_35_baseball_bat"
+  bottom: "cls_score_o_35_baseball_bat"
+  bottom: "cls_score_o_35_baseball_bat"
+  bottom: "cls_score_o_35_baseball_bat"
+  bottom: "cls_score_o_35_baseball_bat"
+  bottom: "cls_score_o_36_baseball_glove"
+  bottom: "cls_score_o_36_baseball_glove"
+  bottom: "cls_score_o_36_baseball_glove"
+  bottom: "cls_score_o_22_bear"
+  bottom: "cls_score_o_22_bear"
+  bottom: "cls_score_o_22_bear"
+  bottom: "cls_score_o_22_bear"
+  bottom: "cls_score_o_60_bed"
+  bottom: "cls_score_o_60_bed"
+  bottom: "cls_score_o_60_bed"
+  bottom: "cls_score_o_60_bed"
+  bottom: "cls_score_o_14_bench"
+  bottom: "cls_score_o_14_bench"
+  bottom: "cls_score_o_14_bench"
+  bottom: "cls_score_o_14_bench"
+  bottom: "cls_score_o_74_book"
+  bottom: "cls_score_o_74_book"
+  bottom: "cls_score_o_74_book"
+  bottom: "cls_score_o_74_book"
+  bottom: "cls_score_o_74_book"
+  bottom: "cls_score_o_46_bowl"
+  bottom: "cls_score_o_46_bowl"
+  bottom: "cls_score_o_46_bowl"
+  bottom: "cls_score_o_46_bowl"
+  bottom: "cls_score_o_46_bowl"
+  bottom: "cls_score_o_51_broccoli"
+  bottom: "cls_score_o_51_broccoli"
+  bottom: "cls_score_o_51_broccoli"
+  bottom: "cls_score_o_51_broccoli"
+  bottom: "cls_score_o_51_broccoli"
+  bottom: "cls_score_o_51_broccoli"
+  bottom: "cls_score_o_51_broccoli"
+  bottom: "cls_score_o_56_cake"
+  bottom: "cls_score_o_56_cake"
+  bottom: "cls_score_o_56_cake"
+  bottom: "cls_score_o_56_cake"
+  bottom: "cls_score_o_56_cake"
+  bottom: "cls_score_o_56_cake"
+  bottom: "cls_score_o_56_cake"
+  bottom: "cls_score_o_56_cake"
+  bottom: "cls_score_o_56_cake"
+  bottom: "cls_score_o_52_carrot"
+  bottom: "cls_score_o_52_carrot"
+  bottom: "cls_score_o_52_carrot"
+  bottom: "cls_score_o_52_carrot"
+  bottom: "cls_score_o_52_carrot"
+  bottom: "cls_score_o_52_carrot"
+  bottom: "cls_score_o_52_carrot"
+  bottom: "cls_score_o_52_carrot"
+  bottom: "cls_score_o_52_carrot"
+  bottom: "cls_score_o_52_carrot"
+  bottom: "cls_score_o_68_cell_phone"
+  bottom: "cls_score_o_68_cell_phone"
+  bottom: "cls_score_o_68_cell_phone"
+  bottom: "cls_score_o_68_cell_phone"
+  bottom: "cls_score_o_68_cell_phone"
+  bottom: "cls_score_o_68_cell_phone"
+  bottom: "cls_score_o_68_cell_phone"
+  bottom: "cls_score_o_75_clock"
+  bottom: "cls_score_o_75_clock"
+  bottom: "cls_score_o_75_clock"
+  bottom: "cls_score_o_75_clock"
+  bottom: "cls_score_o_75_clock"
+  bottom: "cls_score_o_42_cup"
+  bottom: "cls_score_o_42_cup"
+  bottom: "cls_score_o_42_cup"
+  bottom: "cls_score_o_42_cup"
+  bottom: "cls_score_o_42_cup"
+  bottom: "cls_score_o_42_cup"
+  bottom: "cls_score_o_42_cup"
+  bottom: "cls_score_o_42_cup"
+  bottom: "cls_score_o_42_cup"
+  bottom: "cls_score_o_42_cup"
+  bottom: "cls_score_o_55_donut"
+  bottom: "cls_score_o_55_donut"
+  bottom: "cls_score_o_55_donut"
+  bottom: "cls_score_o_55_donut"
+  bottom: "cls_score_o_55_donut"
+  bottom: "cls_score_o_55_donut"
+  bottom: "cls_score_o_55_donut"
+  bottom: "cls_score_o_55_donut"
+  bottom: "cls_score_o_21_elephant"
+  bottom: "cls_score_o_21_elephant"
+  bottom: "cls_score_o_21_elephant"
+  bottom: "cls_score_o_21_elephant"
+  bottom: "cls_score_o_21_elephant"
+  bottom: "cls_score_o_21_elephant"
+  bottom: "cls_score_o_21_elephant"
+  bottom: "cls_score_o_21_elephant"
+  bottom: "cls_score_o_21_elephant"
+  bottom: "cls_score_o_21_elephant"
+  bottom: "cls_score_o_21_elephant"
+  bottom: "cls_score_o_21_elephant"
+  bottom: "cls_score_o_11_fire_hydrant"
+  bottom: "cls_score_o_11_fire_hydrant"
+  bottom: "cls_score_o_11_fire_hydrant"
+  bottom: "cls_score_o_11_fire_hydrant"
+  bottom: "cls_score_o_11_fire_hydrant"
+  bottom: "cls_score_o_43_fork"
+  bottom: "cls_score_o_43_fork"
+  bottom: "cls_score_o_43_fork"
+  bottom: "cls_score_o_43_fork"
+  bottom: "cls_score_o_43_fork"
+  bottom: "cls_score_o_43_fork"
+  bottom: "cls_score_o_30_frisbee"
+  bottom: "cls_score_o_30_frisbee"
+  bottom: "cls_score_o_30_frisbee"
+  bottom: "cls_score_o_30_frisbee"
+  bottom: "cls_score_o_30_frisbee"
+  bottom: "cls_score_o_30_frisbee"
+  bottom: "cls_score_o_24_giraffe"
+  bottom: "cls_score_o_24_giraffe"
+  bottom: "cls_score_o_24_giraffe"
+  bottom: "cls_score_o_24_giraffe"
+  bottom: "cls_score_o_24_giraffe"
+  bottom: "cls_score_o_24_giraffe"
+  bottom: "cls_score_o_79_hair_drier"
+  bottom: "cls_score_o_79_hair_drier"
+  bottom: "cls_score_o_79_hair_drier"
+  bottom: "cls_score_o_79_hair_drier"
+  bottom: "cls_score_o_27_handbag"
+  bottom: "cls_score_o_27_handbag"
+  bottom: "cls_score_o_27_handbag"
+  bottom: "cls_score_o_27_handbag"
+  bottom: "cls_score_o_53_hot_dog"
+  bottom: "cls_score_o_53_hot_dog"
+  bottom: "cls_score_o_53_hot_dog"
+  bottom: "cls_score_o_53_hot_dog"
+  bottom: "cls_score_o_53_hot_dog"
+  bottom: "cls_score_o_53_hot_dog"
+  bottom: "cls_score_o_53_hot_dog"
+  bottom: "cls_score_o_67_keyboard"
+  bottom: "cls_score_o_67_keyboard"
+  bottom: "cls_score_o_67_keyboard"
+  bottom: "cls_score_o_67_keyboard"
+  bottom: "cls_score_o_67_keyboard"
+  bottom: "cls_score_o_34_kite"
+  bottom: "cls_score_o_34_kite"
+  bottom: "cls_score_o_34_kite"
+  bottom: "cls_score_o_34_kite"
+  bottom: "cls_score_o_34_kite"
+  bottom: "cls_score_o_34_kite"
+  bottom: "cls_score_o_34_kite"
+  bottom: "cls_score_o_34_kite"
+  bottom: "cls_score_o_44_knife"
+  bottom: "cls_score_o_44_knife"
+  bottom: "cls_score_o_44_knife"
+  bottom: "cls_score_o_44_knife"
+  bottom: "cls_score_o_44_knife"
+  bottom: "cls_score_o_44_knife"
+  bottom: "cls_score_o_44_knife"
+  bottom: "cls_score_o_64_laptop"
+  bottom: "cls_score_o_64_laptop"
+  bottom: "cls_score_o_64_laptop"
+  bottom: "cls_score_o_64_laptop"
+  bottom: "cls_score_o_64_laptop"
+  bottom: "cls_score_o_64_laptop"
+  bottom: "cls_score_o_69_microwave"
+  bottom: "cls_score_o_69_microwave"
+  bottom: "cls_score_o_69_microwave"
+  bottom: "cls_score_o_69_microwave"
+  bottom: "cls_score_o_65_mouse"
+  bottom: "cls_score_o_65_mouse"
+  bottom: "cls_score_o_65_mouse"
+  bottom: "cls_score_o_65_mouse"
+  bottom: "cls_score_o_50_orange"
+  bottom: "cls_score_o_50_orange"
+  bottom: "cls_score_o_50_orange"
+  bottom: "cls_score_o_50_orange"
+  bottom: "cls_score_o_50_orange"
+  bottom: "cls_score_o_50_orange"
+  bottom: "cls_score_o_50_orange"
+  bottom: "cls_score_o_50_orange"
+  bottom: "cls_score_o_50_orange"
+  bottom: "cls_score_o_50_orange"
+  bottom: "cls_score_o_70_oven"
+  bottom: "cls_score_o_70_oven"
+  bottom: "cls_score_o_70_oven"
+  bottom: "cls_score_o_70_oven"
+  bottom: "cls_score_o_70_oven"
+  bottom: "cls_score_o_70_oven"
+  bottom: "cls_score_o_70_oven"
+  bottom: "cls_score_o_13_parking_meter"
+  bottom: "cls_score_o_13_parking_meter"
+  bottom: "cls_score_o_13_parking_meter"
+  bottom: "cls_score_o_13_parking_meter"
+  bottom: "cls_score_o_54_pizza"
+  bottom: "cls_score_o_54_pizza"
+  bottom: "cls_score_o_54_pizza"
+  bottom: "cls_score_o_54_pizza"
+  bottom: "cls_score_o_54_pizza"
+  bottom: "cls_score_o_54_pizza"
+  bottom: "cls_score_o_54_pizza"
+  bottom: "cls_score_o_54_pizza"
+  bottom: "cls_score_o_54_pizza"
+  bottom: "cls_score_o_54_pizza"
+  bottom: "cls_score_o_54_pizza"
+  bottom: "cls_score_o_73_refrigerator"
+  bottom: "cls_score_o_73_refrigerator"
+  bottom: "cls_score_o_73_refrigerator"
+  bottom: "cls_score_o_73_refrigerator"
+  bottom: "cls_score_o_73_refrigerator"
+  bottom: "cls_score_o_66_remote"
+  bottom: "cls_score_o_66_remote"
+  bottom: "cls_score_o_66_remote"
+  bottom: "cls_score_o_66_remote"
+  bottom: "cls_score_o_49_sandwich"
+  bottom: "cls_score_o_49_sandwich"
+  bottom: "cls_score_o_49_sandwich"
+  bottom: "cls_score_o_49_sandwich"
+  bottom: "cls_score_o_49_sandwich"
+  bottom: "cls_score_o_49_sandwich"
+  bottom: "cls_score_o_49_sandwich"
+  bottom: "cls_score_o_77_scissors"
+  bottom: "cls_score_o_77_scissors"
+  bottom: "cls_score_o_77_scissors"
+  bottom: "cls_score_o_77_scissors"
+  bottom: "cls_score_o_72_sink"
+  bottom: "cls_score_o_72_sink"
+  bottom: "cls_score_o_72_sink"
+  bottom: "cls_score_o_72_sink"
+  bottom: "cls_score_o_37_skateboard"
+  bottom: "cls_score_o_37_skateboard"
+  bottom: "cls_score_o_37_skateboard"
+  bottom: "cls_score_o_37_skateboard"
+  bottom: "cls_score_o_37_skateboard"
+  bottom: "cls_score_o_37_skateboard"
+  bottom: "cls_score_o_37_skateboard"
+  bottom: "cls_score_o_37_skateboard"
+  bottom: "cls_score_o_37_skateboard"
+  bottom: "cls_score_o_37_skateboard"
+  bottom: "cls_score_o_31_skis"
+  bottom: "cls_score_o_31_skis"
+  bottom: "cls_score_o_31_skis"
+  bottom: "cls_score_o_31_skis"
+  bottom: "cls_score_o_31_skis"
+  bottom: "cls_score_o_31_skis"
+  bottom: "cls_score_o_31_skis"
+  bottom: "cls_score_o_31_skis"
+  bottom: "cls_score_o_31_skis"
+  bottom: "cls_score_o_31_skis"
+  bottom: "cls_score_o_31_skis"
+  bottom: "cls_score_o_32_snowboard"
+  bottom: "cls_score_o_32_snowboard"
+  bottom: "cls_score_o_32_snowboard"
+  bottom: "cls_score_o_32_snowboard"
+  bottom: "cls_score_o_32_snowboard"
+  bottom: "cls_score_o_32_snowboard"
+  bottom: "cls_score_o_32_snowboard"
+  bottom: "cls_score_o_32_snowboard"
+  bottom: "cls_score_o_32_snowboard"
+  bottom: "cls_score_o_45_spoon"
+  bottom: "cls_score_o_45_spoon"
+  bottom: "cls_score_o_45_spoon"
+  bottom: "cls_score_o_45_spoon"
+  bottom: "cls_score_o_45_spoon"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_33_sports_ball"
+  bottom: "cls_score_o_12_stop_sign"
+  bottom: "cls_score_o_12_stop_sign"
+  bottom: "cls_score_o_12_stop_sign"
+  bottom: "cls_score_o_12_stop_sign"
+  bottom: "cls_score_o_29_suitcase"
+  bottom: "cls_score_o_29_suitcase"
+  bottom: "cls_score_o_29_suitcase"
+  bottom: "cls_score_o_29_suitcase"
+  bottom: "cls_score_o_29_suitcase"
+  bottom: "cls_score_o_29_suitcase"
+  bottom: "cls_score_o_29_suitcase"
+  bottom: "cls_score_o_29_suitcase"
+  bottom: "cls_score_o_29_suitcase"
+  bottom: "cls_score_o_29_suitcase"
+  bottom: "cls_score_o_38_surfboard"
+  bottom: "cls_score_o_38_surfboard"
+  bottom: "cls_score_o_38_surfboard"
+  bottom: "cls_score_o_38_surfboard"
+  bottom: "cls_score_o_38_surfboard"
+  bottom: "cls_score_o_38_surfboard"
+  bottom: "cls_score_o_38_surfboard"
+  bottom: "cls_score_o_38_surfboard"
+  bottom: "cls_score_o_38_surfboard"
+  bottom: "cls_score_o_38_surfboard"
+  bottom: "cls_score_o_38_surfboard"
+  bottom: "cls_score_o_38_surfboard"
+  bottom: "cls_score_o_78_teddy_bear"
+  bottom: "cls_score_o_78_teddy_bear"
+  bottom: "cls_score_o_78_teddy_bear"
+  bottom: "cls_score_o_78_teddy_bear"
+  bottom: "cls_score_o_78_teddy_bear"
+  bottom: "cls_score_o_39_tennis_racket"
+  bottom: "cls_score_o_39_tennis_racket"
+  bottom: "cls_score_o_39_tennis_racket"
+  bottom: "cls_score_o_39_tennis_racket"
+  bottom: "cls_score_o_39_tennis_racket"
+  bottom: "cls_score_o_28_tie"
+  bottom: "cls_score_o_28_tie"
+  bottom: "cls_score_o_28_tie"
+  bottom: "cls_score_o_28_tie"
+  bottom: "cls_score_o_28_tie"
+  bottom: "cls_score_o_28_tie"
+  bottom: "cls_score_o_28_tie"
+  bottom: "cls_score_o_28_tie"
+  bottom: "cls_score_o_71_toaster"
+  bottom: "cls_score_o_71_toaster"
+  bottom: "cls_score_o_71_toaster"
+  bottom: "cls_score_o_71_toaster"
+  bottom: "cls_score_o_62_toilet"
+  bottom: "cls_score_o_62_toilet"
+  bottom: "cls_score_o_62_toilet"
+  bottom: "cls_score_o_62_toilet"
+  bottom: "cls_score_o_62_toilet"
+  bottom: "cls_score_o_62_toilet"
+  bottom: "cls_score_o_62_toilet"
+  bottom: "cls_score_o_62_toilet"
+  bottom: "cls_score_o_80_toothbrush"
+  bottom: "cls_score_o_80_toothbrush"
+  bottom: "cls_score_o_80_toothbrush"
+  bottom: "cls_score_o_80_toothbrush"
+  bottom: "cls_score_o_10_traffic_light"
+  bottom: "cls_score_o_10_traffic_light"
+  bottom: "cls_score_o_10_traffic_light"
+  bottom: "cls_score_o_10_traffic_light"
+  bottom: "cls_score_o_10_traffic_light"
+  bottom: "cls_score_o_08_truck"
+  bottom: "cls_score_o_08_truck"
+  bottom: "cls_score_o_08_truck"
+  bottom: "cls_score_o_08_truck"
+  bottom: "cls_score_o_08_truck"
+  bottom: "cls_score_o_08_truck"
+  bottom: "cls_score_o_08_truck"
+  bottom: "cls_score_o_08_truck"
+  bottom: "cls_score_o_08_truck"
+  bottom: "cls_score_o_26_umbrella"
+  bottom: "cls_score_o_26_umbrella"
+  bottom: "cls_score_o_26_umbrella"
+  bottom: "cls_score_o_26_umbrella"
+  bottom: "cls_score_o_26_umbrella"
+  bottom: "cls_score_o_26_umbrella"
+  bottom: "cls_score_o_26_umbrella"
+  bottom: "cls_score_o_26_umbrella"
+  bottom: "cls_score_o_76_vase"
+  bottom: "cls_score_o_76_vase"
+  bottom: "cls_score_o_76_vase"
+  bottom: "cls_score_o_76_vase"
+  bottom: "cls_score_o_41_wine_glass"
+  bottom: "cls_score_o_41_wine_glass"
+  bottom: "cls_score_o_41_wine_glass"
+  bottom: "cls_score_o_41_wine_glass"
+  bottom: "cls_score_o_41_wine_glass"
+  bottom: "cls_score_o_41_wine_glass"
+  bottom: "cls_score_o_41_wine_glass"
+  bottom: "cls_score_o_23_zebra"
+  bottom: "cls_score_o_23_zebra"
+  bottom: "cls_score_o_23_zebra"
+  bottom: "cls_score_o_23_zebra"
+  bottom: "cls_score_o_23_zebra"
+  top: "cls_score_o"
+  type: "Concat"
+  concat_param {
+    axis: 1
+  }
+}
+###########################################################################
+# classification
+###########################################################################
+layer {
+  name: "cls_score"
+  type: "Eltwise"
+  bottom: "cls_score_vo"
+  bottom: "cls_score_o"
+  top: "cls_score"
+  eltwise_param {
+    operation: 1;
+  }
+}
+layer {
+  name: "loss_cls"
+  type: "SigmoidCrossEntropyLoss"
+  bottom: "cls_score"
+  bottom: "labels"
+  top: "loss_cls"
+  loss_weight: 1
+}

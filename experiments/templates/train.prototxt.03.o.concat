@@ -1,0 +1,9 @@
+layer {
+  name: "cls_score_o"
+${BOTTOM}
+  top: "cls_score_o"
+  type: "Concat"
+  concat_param {
+    axis: 1
+  }
+}

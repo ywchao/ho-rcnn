@@ -1,0 +1,10 @@
+layer {
+  name: "slicer_o_int"
+  type: "Slice"
+  bottom: "cls_score_o_int"
+${TOP}
+  slice_param {
+    axis: 1
+${PARAM}
+  }
+}
