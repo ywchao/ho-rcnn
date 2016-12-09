@@ -1,5 +1,5 @@
 ROOT_DIR: "./"
-EXP_DIR: "ho_p1_box"
+EXP_DIR: "ho_p1"
 USE_SPATIAL: 5
 TRAIN:
   BBOX_REG: False

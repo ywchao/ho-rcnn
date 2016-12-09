@@ -16,7 +16,7 @@ exec &> >(tee -a "$LOG")
 echo Logging output to "$LOG"
 
 time ./fast-rcnn/tools/train_net.py --gpu $gpu_id \
-  --solver ./models/rcnn_caffenet_ho_pfc/solver.prototxt \
+  --solver ./models/rcnn_caffenet_ho_pfc/solver_box.prototxt \
   --weights ./data/imagenet_models/CaffeNet.v2.ho.caffemodel \
   --imdb hico_det_train2015 \
   --cfg ./experiments/cfgs/rcnn_ho_p1_box.yml \
