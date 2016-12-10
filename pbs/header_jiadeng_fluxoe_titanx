@@ -1,0 +1,14 @@
+#PBS -N ${job_name} \
+#PBS -M ywchao@umich.edu \
+#PBS -m a \
+
+#PBS -A jiadeng_fluxoe
+#PBS -q fluxoe
+#PBS -l qos=flux
+#PBS -l nodes=1:ppn=${ppn}:gpus=${gpus}:titanx
+#PBS -l mem=${mem}
+#PBS -l walltime=${walltime}
+#PBS -j eo
+#PBS -V
+
+#PBS -d ${working_dir}
