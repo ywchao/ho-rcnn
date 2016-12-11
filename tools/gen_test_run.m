@@ -13,6 +13,8 @@ image_set = 'test2015';
 iter = 150000;
 
 
+exp_name = 'rcnn_caffenet_union';  model_name = exp_name;  cfg_name = 'rcnn_union';  gen_test_one;  %#ok
+
 exp_name = 'rcnn_caffenet_ho';  model_name = exp_name;  cfg_name = 'rcnn_ho';  gen_test_one;  %#ok
 
 exp_name = 'rcnn_caffenet_ho_p1fc_vec';  model_name = 'rcnn_caffenet_ho_pfc';  cfg_name = 'rcnn_ho_p1_vec';  gen_test_one;  %#ok
