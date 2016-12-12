@@ -99,6 +99,12 @@ for o = 1:numel(list_coco_obj)
     trg_file = script_file;
     if ~exist(trg_file,'file')
         C = read_file_lines(src_file,flag_indent);
+        % set score blob if specified
+        if exist('score_blob','var')
+            C = cellfun(@(x)strrep(x,'_${image_set}/',['_${image_set}_' score_blob '/']),C,'UniformOutput',false);
+            C{end} = [C{end} ' \'];
+            C = [C; sprintf('  --set TEST.SCORE_BLOB %s',score_blob)];  %#ok
+        end
         for i = 1:numel(pre_str)
             C = cellfun(@(x)strrep(x,pre_str{i},new_str{i}),C,'UniformOutput',false);
         end
@@ -129,6 +135,9 @@ for o = 1:num_batch
         pre_str{5} = '${walltime}';
         pre_str{6} = '${working_dir}';
         new_str{1} = sprintf('ts_%s', exp_name);
+        if exist('score_blob','var')
+            new_str{1} = sprintf('%s', new_str{1});
+        end
         if batch_mode ~= 0
             new_str{1} = sprintf('%s_%02d_%02d', new_str{1}, sid, eid);
         else
@@ -185,7 +194,7 @@ for o = 1:num_batch
                 end
                 C = [C; 'wait'];  %#ok
         end
-        C = [C; {''}];
+        C = [C; {''}];  %#ok
         write_file_lines(pbs_file,C);
     end
 end
