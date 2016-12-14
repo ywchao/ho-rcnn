@@ -165,7 +165,8 @@ C_end = [{'layer {'}; ...
     {'  top: "cls_prob"'}; ...
     {'}'}];
 
-C = [C_start; C; C_end];
+% empty line at the end
+C = [C_start; C(1:end-1); C_end; C(end)];
 
 % write to file
 if ~exist(proto_file_ts, 'file')

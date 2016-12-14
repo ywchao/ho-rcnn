@@ -1314,7 +1314,6 @@ layer {
     operation: 1;
   }
 }
-
 layer {
   name: "cls_prob"
   type: "Sigmoid"

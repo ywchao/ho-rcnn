@@ -554,123 +554,123 @@ layer {
     }
   }
 }
-########################################################################### 
-# pairwise stream 
-########################################################################### 
-layer { 
-  name: "fc1_p" 
-  type: "InnerProduct" 
-  bottom: "data_p" 
-  top: "fc1_p" 
-  param { 
-    lr_mult: 1 
-    decay_mult: 1 
-  } 
-  param { 
-    lr_mult: 2 
-    decay_mult: 0 
-  } 
-  inner_product_param { 
+###########################################################################
+# pairwise stream
+###########################################################################
+layer {
+  name: "fc1_p"
+  type: "InnerProduct"
+  bottom: "data_p"
+  top: "fc1_p"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
     num_output: 128
-    weight_filler { 
-      type: "xavier" 
-    } 
-    bias_filler { 
-      type: "constant" 
-      value: 0.2 
-    } 
-  } 
-} 
-layer { 
-  name: "relu1_p" 
-  type: "ReLU" 
-  bottom: "fc1_p" 
-  top: "fc1_p" 
-} 
-layer { 
-  name: "fc2_p" 
-  type: "InnerProduct" 
-  bottom: "fc1_p" 
-  top: "fc2_p" 
-  param { 
-    lr_mult: 1 
-    decay_mult: 1 
-  } 
-  param { 
-    lr_mult: 2 
-    decay_mult: 0 
-  } 
-  inner_product_param { 
-    num_output: 512 
-    weight_filler { 
-      type: "xavier" 
-    } 
-    bias_filler { 
-      type: "constant" 
-      value: 0.2 
-    } 
-  } 
-} 
-layer { 
-  name: "relu2_p" 
-  type: "ReLU" 
-  bottom: "fc2_p" 
-  top: "fc2_p" 
-} 
-layer { 
-  name: "fc3_p" 
-  type: "InnerProduct" 
-  bottom: "fc2_p" 
-  top: "fc3_p" 
-  param { 
-    lr_mult: 1 
-    decay_mult: 1 
-  } 
-  param { 
-    lr_mult: 2 
-    decay_mult: 0 
-  } 
-  inner_product_param { 
-    num_output: 256 
-    weight_filler { 
-      type: "xavier" 
-    } 
-    bias_filler { 
-      type: "constant" 
-      value: 0.2 
-    } 
-  } 
-} 
-layer { 
-  name: "relu3_p" 
-  type: "ReLU" 
-  bottom: "fc3_p" 
-  top: "fc3_p" 
-} 
-layer { 
-  name: "cls_score_vo_p" 
-  type: "InnerProduct" 
-  bottom: "fc3_p" 
-  top: "cls_score_vo_p" 
-  param { 
-    lr_mult: 1 
-    decay_mult: 1 
-  } 
-  param { 
-    lr_mult: 2 
-    decay_mult: 0 
-  } 
-  inner_product_param { 
-    num_output: 600 
-    weight_filler { 
-      type: "gaussian" 
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.2
+    }
+  }
+}
+layer {
+  name: "relu1_p"
+  type: "ReLU"
+  bottom: "fc1_p"
+  top: "fc1_p"
+}
+layer {
+  name: "fc2_p"
+  type: "InnerProduct"
+  bottom: "fc1_p"
+  top: "fc2_p"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 512
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.2
+    }
+  }
+}
+layer {
+  name: "relu2_p"
+  type: "ReLU"
+  bottom: "fc2_p"
+  top: "fc2_p"
+}
+layer {
+  name: "fc3_p"
+  type: "InnerProduct"
+  bottom: "fc2_p"
+  top: "fc3_p"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 256
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.2
+    }
+  }
+}
+layer {
+  name: "relu3_p"
+  type: "ReLU"
+  bottom: "fc3_p"
+  top: "fc3_p"
+}
+layer {
+  name: "cls_score_p"
+  type: "InnerProduct"
+  bottom: "fc3_p"
+  top: "cls_score_p"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 600
+    weight_filler {
+      type: "gaussian"
       std: 0.0001
-    } 
-    bias_filler { 
-      type: "constant" 
+    }
+    bias_filler {
+      type: "constant"
       value: 0
-    } 
-  } 
+    }
+  }
 }
 ###########################################################################
 # vo classification
