@@ -7,6 +7,9 @@ proto_dir     = './models/%s%s/';
 proto_dir     = sprintf(proto_dir, model_name, postfix);
 proto_file_tr = '%strain.prototxt';
 proto_file_ts = '%stest.prototxt';
+if use_pairwise
+    proto_file_ts = '%stest_ip.prototxt';
+end
 proto_file_tr = sprintf(proto_file_tr, proto_dir);
 proto_file_ts = sprintf(proto_file_ts, proto_dir);
 makedir(proto_dir);

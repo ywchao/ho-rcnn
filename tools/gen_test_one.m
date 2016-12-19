@@ -33,10 +33,13 @@ end
 
 % test_name
 test_name = 'test';
-if numel(exp_name) > 4 && strcmp(exp_name(end-3:end),'_vec') == 1
+if numel(exp_name) > 4 && numel(strfind(exp_name,'_ip')) == 1
+    test_name = 'test_ip';
+end
+if numel(exp_name) > 4 && numel(strfind(exp_name,'_vec')) == 1
     test_name = 'test_vec';
 end
-if numel(exp_name) > 4 && strcmp(exp_name(end-3:end),'_box') == 1
+if numel(exp_name) > 4 && numel(strfind(exp_name,'_box')) == 1
     test_name = 'test_box';
 end
 
@@ -51,10 +54,13 @@ exp_dir = C{ind_1}(ind_2(1)+1:ind_2(2)-1);
 
 % snapshot_prefix
 solver_file = ['./models/' model_name '/solver.prototxt'];
-if numel(exp_name) > 4 && strcmp(exp_name(end-3:end),'_vec') == 1
+if numel(exp_name) > 4 && numel(strfind(exp_name,'_ip')) == 1
+    solver_file = ['./models/' model_name '/solver_ip.prototxt'];
+end
+if numel(exp_name) > 4 && numel(strfind(exp_name,'_vec')) == 1
     solver_file = ['./models/' model_name '/solver_vec.prototxt'];
 end
-if numel(exp_name) > 4 && strcmp(exp_name(end-3:end),'_box') == 1
+if numel(exp_name) > 4 && numel(strfind(exp_name,'_box')) == 1
     solver_file = ['./models/' model_name '/solver_box.prototxt'];
 end
 C = read_file_lines(solver_file);
