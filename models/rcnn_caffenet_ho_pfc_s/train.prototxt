@@ -663,10 +663,10 @@ layer {
   top: "fc3_p"
 }
 layer {
-  name: "cls_score_p"
+  name: "cls_score_vo_p"
   type: "InnerProduct"
   bottom: "fc3_p"
-  top: "cls_score_p"
+  top: "cls_score_vo_p"
   param {
     lr_mult: 1
     decay_mult: 1
