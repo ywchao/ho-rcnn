@@ -420,7 +420,7 @@ layer {
   bottom: "fc1_p"
   top: "fc2_p"
   inner_product_param {
-    num_output: 512
+    num_output: 256
   }
 }
 layer {
@@ -435,7 +435,7 @@ layer {
   bottom: "fc2_p"
   top: "fc3_p"
   inner_product_param {
-    num_output: 256
+    num_output: 512
   }
 }
 layer {
