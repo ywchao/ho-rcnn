@@ -20,6 +20,16 @@ weights        = cell(numel(layer_names), 1);
 weights_h      = cell(numel(layer_names_h), 1);
 weights_o      = cell(numel(layer_names_o), 1);
 
+% load anno
+anno = load(anno_file);
+
+% get object list
+det_file = './cache/det_base_caffenet/train2015/HICO_train2015_00000001.mat';
+assert(exist(det_file,'file') ~= 0);
+ld = load(det_file);
+list_coco_obj = cellfun(@(x)strrep(x,' ','_'),ld.cls,'UniformOutput',false);
+list_coco_obj = list_coco_obj(2:end)';
+
 % set mode and device
 caffe.set_mode_gpu();
 caffe.set_device(gpu_id);
@@ -63,7 +73,6 @@ for i = 1:numel(layer_names_o)
         );
     weights_o{i}{1} = net.layers(layer_names_o{i}).params(1).get_data();
     weights_o{i}{2} = net.layers(layer_names_o{i}).params(2).get_data();
-    % Note: conv_weights will be all zeros
     assert(all(weights_o{i}{1}(:) == 0) == 1);
     assert(all(weights_o{i}{2}(:) == 0) == 1);
 end
@@ -75,10 +84,18 @@ for i = 1:numel(layer_names_h)
         );
     weights_h{i}{1} = net.layers(layer_names_h{i}).params(1).get_data();
     weights_h{i}{2} = net.layers(layer_names_h{i}).params(2).get_data();
-    % Note: conv_weights will be all zeros
     assert(all(weights_h{i}{1}(:) == 0) == 1);
     assert(all(weights_h{i}{2}(:) == 0) == 1);
 end
+fprintf('  %s weights are ( %s) dimensional and biases are ( %s) dimensional\n', ...
+    'cls_score_so', ...
+    sprintf('%d ', size(net.layers('cls_score_so').params(1).get_data())), ...
+    sprintf('%d ', size(net.layers('cls_score_so').params(2).get_data())) ...
+    );
+weights_so{1} = net.layers('cls_score_so').params(1).get_data();
+weights_so{2} = net.layers('cls_score_so').params(2).get_data();
+assert(all(weights_so{1}(:) == 0) == 1);
+assert(all(weights_so{2}(:) == 0) == 1);
 
 % transplant parameters
 for i = 1:numel(layer_names_o)
@@ -93,6 +110,16 @@ for i = 1:numel(layer_names_h)
     net.layers(layer_names_h{i}).params(1).set_data(weights_h{i}{1});
     net.layers(layer_names_h{i}).params(2).set_data(weights_h{i}{2});
 end
+
+% manually set parameters
+for i = 1:numel(anno.list_action)
+    obj_id = cell_find_string(list_coco_obj, anno.list_action(i).nname);
+    weights_so{1}(obj_id, i) = 1;
+end
+weights_so{1} = single(weights_so{1});
+weights_so{2} = single(weights_so{2});
+net.layers('cls_score_so').params(1).set_data(weights_so{1});
+net.layers('cls_score_so').params(2).set_data(weights_so{2});
 
 % save weights
 if ~exist(weight_ho_file,'file')

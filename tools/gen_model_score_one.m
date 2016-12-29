@@ -18,13 +18,6 @@ flag_indent = true;
 
 anno = load(anno_file);
 
-% get object list
-det_file = './cache/det_base_caffenet/train2015/HICO_train2015_00000001.mat';
-assert(exist(det_file,'file') ~= 0);
-ld = load(det_file);
-list_coco_obj = cellfun(@(x)strrep(x,' ','_'),ld.cls,'UniformOutput',false);
-list_coco_obj = list_coco_obj(2:end)';
-
 C = {};
 
 % input
@@ -43,41 +36,9 @@ S = read_file_lines(src_file, flag_indent);
 C = [C; S];
 
 % o classification
-% classfiers
 src_file = './experiments/templates/train.prototxt.03.o.classify';
 S = read_file_lines(src_file, flag_indent);
-S = cellfun(@(x)strrep(x,'${NUM_OUTPUT}',num2str(numel(list_coco_obj),'%d')), S, 'UniformOutput', false);
-C = [C; S];
-% slice
-src_file = './experiments/templates/train.prototxt.03.o.slice';
-S = read_file_lines(src_file, flag_indent);
-C_TOP = [];
-C_PARAM = [];
-for i = 1:numel(list_coco_obj)
-    line = sprintf('  top: "cls_score_o_%02d_%s"',i,list_coco_obj{i});
-    C_TOP = [C_TOP; {line}];  %#ok
-    if i ~= numel(list_coco_obj)
-        line = sprintf('    slice_point: %d',i);
-        C_PARAM = [C_PARAM; {line}];  %#ok
-    end
-end
-ind = cell_find_string(S,'${TOP}');
-S = [S(1:ind-1); C_TOP; S(ind+1:end)];
-ind = cell_find_string(S,'${PARAM}');
-S = [S(1:ind-1); C_PARAM; S(ind+1:end)];
-C = [C; S];
-% concat
-src_file = './experiments/templates/train.prototxt.03.o.concat';
-S = read_file_lines(src_file, flag_indent);
-ind = cell_find_string(S,'${BOTTOM}');
-C_BOTTOM = [];
-for i = 1:numel(anno.list_action)
-    obj_id = cell_find_string(list_coco_obj, anno.list_action(i).nname);
-    obj_name = anno.list_action(i).nname;
-    line = sprintf('  bottom: "cls_score_o_%02d_%s"', obj_id, obj_name);
-    C_BOTTOM = [C_BOTTOM; {line}];  %#ok
-end
-S = [S(1:ind-1); C_BOTTOM; S(ind+1:end)];
+S = cellfun(@(x)strrep(x,'${NUM_OUTPUT}',num2str(numel(anno.list_action),'%d')), S, 'UniformOutput', false);
 C = [C; S];
 
 % combine classification
@@ -85,7 +46,7 @@ src_file = './experiments/templates/train.prototxt.04.output';
 S = read_file_lines(src_file, flag_indent);
 ind = cell_find_string(S,'${BOTTOM}');
 C_BOTTOM = {'  bottom: "cls_score_vo"'};
-C_BOTTOM = [C_BOTTOM; {'  bottom: "cls_score_o"'}];
+C_BOTTOM = [C_BOTTOM; {'  bottom: "cls_score_so"'}];
 S = [S(1:ind-1); C_BOTTOM; S(ind+1:end)];
 C = [C; S];
 
