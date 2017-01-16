@@ -31,6 +31,10 @@ clear score_blob
 score_blob = 'h';  exp_name = 'rcnn_caffenet_ho_pconv_ip0_h';  model_name = 'rcnn_caffenet_ho_pconv';  cfg_name = 'rcnn_ho_ip0';  gen_test_one;  %#ok
 score_blob = 'o';  exp_name = 'rcnn_caffenet_ho_pconv_ip0_o';  model_name = 'rcnn_caffenet_ho_pconv';  cfg_name = 'rcnn_ho_ip0';  gen_test_one;  %#ok
 score_blob = 'p';  exp_name = 'rcnn_caffenet_ho_pconv_ip0_p';  model_name = 'rcnn_caffenet_ho_pconv';  cfg_name = 'rcnn_ho_ip0';  gen_test_one;  %#ok
+
+score_blob = 'h';  exp_name = 'rcnn_caffenet_ho_pconv_ip1_h';  model_name = 'rcnn_caffenet_ho_pconv';  cfg_name = 'rcnn_ho_ip1';  gen_test_one;  %#ok
+score_blob = 'o';  exp_name = 'rcnn_caffenet_ho_pconv_ip1_o';  model_name = 'rcnn_caffenet_ho_pconv';  cfg_name = 'rcnn_ho_ip1';  gen_test_one;  %#ok
+score_blob = 'p';  exp_name = 'rcnn_caffenet_ho_pconv_ip1_p';  model_name = 'rcnn_caffenet_ho_pconv';  cfg_name = 'rcnn_ho_ip1';  gen_test_one;  %#ok
 clear score_blob
 
 % using object detection scores
