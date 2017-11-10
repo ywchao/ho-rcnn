@@ -84,6 +84,9 @@ for i = ind:numel(C)
     if strcmp(C{i},'    bias_filler {') == 1
         rm_id = [rm_id; (i:i+3)'];  %#ok
     end
+    if numel(C{i}) >= 14 && strcmp(C{i}(1:14), '  name: "drop6') == 1
+        rm_id = [rm_id; (i-1:i+7)'];  %#ok
+    end
     if numel(C{i}) >= 14 && strcmp(C{i}(1:14), '  name: "drop7') == 1
         rm_id = [rm_id; (i-1:i+7)'];  %#ok
     end

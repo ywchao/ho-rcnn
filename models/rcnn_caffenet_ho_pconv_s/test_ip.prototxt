@@ -190,15 +190,6 @@ layer {
   top: "fc6_h"
 }
 layer {
-  name: "drop6_h"
-  type: "Dropout"
-  bottom: "fc6_h"
-  top: "fc6_h"
-  dropout_param {
-    dropout_ratio: 0.5
-  }
-}
-layer {
   name: "fc7_h"
   type: "InnerProduct"
   bottom: "fc6_h"
@@ -385,15 +376,6 @@ layer {
   type: "ReLU"
   bottom: "fc6_o"
   top: "fc6_o"
-}
-layer {
-  name: "drop6_o"
-  type: "Dropout"
-  bottom: "fc6_o"
-  top: "fc6_o"
-  dropout_param {
-    dropout_ratio: 0.5
-  }
 }
 layer {
   name: "fc7_o"
