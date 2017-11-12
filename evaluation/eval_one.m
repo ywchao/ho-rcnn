@@ -107,6 +107,18 @@ else
     end
     fprintf('done.\n');
 
+    % load detection
+    switch format
+        case 'obj'
+            % dummy variable
+            all_boxes = zeros(num_action, 1);
+        case 'all'
+            % load detection res (all object mode)
+            det_file = [det_root 'detections.mat'];
+            ld = load(det_file);
+            all_boxes = ld.all_boxes;
+    end
+
     % start parpool
     if ~exist('pool_size','var')
         poolobj = parpool();
@@ -114,6 +126,9 @@ else
         poolobj = parpool(pool_size);
     end
     
+    % warning off
+    warning('off','MATLAB:mir_warning_maybe_uninitialized_temporary');
+
     % compute ap for each class    
     AP = zeros(num_action, 1);
     REC = zeros(num_action, 1);
@@ -123,14 +138,20 @@ else
         aname = [list_action(i).vname_ing '_' list_action(i).nname];
         fprintf('  %03d/%03d %-30s', i, num_action, aname);
         tic;
-        % get object id and action id within the object category
-        obj_id = cell_find_string(list_coco_obj, nname);
-        act_id = i - obj_hoi_int(obj_id, 1) + 1;  %#ok
-        assert(numel(obj_id) == 1);
-        % get detection res
-        det_file = [det_root 'detections_' num2str(obj_id,'%02d') '.mat'];
-        ld = load(det_file);
-        det = ld.all_boxes(act_id, :);
+        % get detection results
+        switch format
+            case 'obj'
+                % get object id and action id within the object category
+                obj_id = cell_find_string(list_coco_obj, nname);
+                act_id = i - obj_hoi_int(obj_id, 1) + 1;  %#ok
+                assert(numel(obj_id) == 1);
+                % load detection res (one object mode)
+                det_file = [det_root 'detections_' num2str(obj_id,'%02d') '.mat'];
+                ld = load(det_file);
+                det = ld.all_boxes(act_id, :);
+           case 'all'
+                det = all_boxes(i, :);
+        end
         % convert detection results
         det_id = zeros(0, 1);
         det_bb = zeros(0, 8);
@@ -173,6 +194,9 @@ else
     end
     fprintf('done.\n');
     
+    % warning on
+    warning('on','MATLAB:mir_warning_maybe_uninitialized_temporary');
+
     % delete parpool
     delete(poolobj);
     

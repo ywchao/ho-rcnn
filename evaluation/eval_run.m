@@ -5,32 +5,66 @@ image_set = 'test2015';
 iter = 150000;
 
 
-% exp_name = 'rcnn_caffenet_union';  exp_dir = 'union';  prefix = 'rcnn_caffenet';
+% --------------------------------------------------------------------
+% RCNN
+% --------------------------------------------------------------------
 
-% exp_name = 'rcnn_caffenet_ho';  exp_dir = 'ho';  prefix = 'rcnn_caffenet';
+% exp_name = 'rcnn_caffenet_union';  exp_dir = 'union';  prefix = 'rcnn_caffenet';  format = 'obj';
 
-% exp_name = 'rcnn_caffenet_ho_p1fc_vec';    exp_dir = 'ho_p1';  prefix = 'rcnn_caffenet_pfc_vec';
-% exp_name = 'rcnn_caffenet_ho_p2fc_vec';    exp_dir = 'ho_p2';  prefix = 'rcnn_caffenet_pfc_vec';
-% exp_name = 'rcnn_caffenet_ho_p1fc_box';    exp_dir = 'ho_p1';  prefix = 'rcnn_caffenet_pfc_box';
-% exp_name = 'rcnn_caffenet_ho_p2fc_box';    exp_dir = 'ho_p2';  prefix = 'rcnn_caffenet_pfc_box';
+% exp_name = 'rcnn_caffenet_ho';  exp_dir = 'ho';  prefix = 'rcnn_caffenet';  format = 'obj';
 
-% exp_name = 'rcnn_caffenet_ho_p1fc';    exp_dir = 'ho_p1';  prefix = 'rcnn_caffenet_pfc';
-% exp_name = 'rcnn_caffenet_ho_p2fc';    exp_dir = 'ho_p2';  prefix = 'rcnn_caffenet_pfc';
-% exp_name = 'rcnn_caffenet_ho_p1conv';  exp_dir = 'ho_p1';  prefix = 'rcnn_caffenet_pconv';
-% exp_name = 'rcnn_caffenet_ho_p2conv';  exp_dir = 'ho_p2';  prefix = 'rcnn_caffenet_pconv';
+% exp_name = 'rcnn_caffenet_ho_pfc_vec0';  exp_dir = 'ho_0';  prefix = 'rcnn_caffenet_pfc_vec';  format = 'obj';
+% exp_name = 'rcnn_caffenet_ho_pfc_vec1';  exp_dir = 'ho_1';  prefix = 'rcnn_caffenet_pfc_vec';  format = 'obj';
+% exp_name = 'rcnn_caffenet_ho_pfc_box0';  exp_dir = 'ho_0';  prefix = 'rcnn_caffenet_pfc_box';  format = 'obj';
+% exp_name = 'rcnn_caffenet_ho_pfc_box1';  exp_dir = 'ho_1';  prefix = 'rcnn_caffenet_pfc_box';  format = 'obj';
 
-
-% exp_name = 'rcnn_caffenet_ho_p1conv';  exp_dir = 'ho_p1';  prefix = 'rcnn_caffenet_pconv';  score_blob = 'h';
-% exp_name = 'rcnn_caffenet_ho_p1conv';  exp_dir = 'ho_p1';  prefix = 'rcnn_caffenet_pconv';  score_blob = 'o';
-% exp_name = 'rcnn_caffenet_ho_p1conv';  exp_dir = 'ho_p1';  prefix = 'rcnn_caffenet_pconv';  score_blob = 'p';
+% exp_name = 'rcnn_caffenet_ho_pfc_ip0';    exp_dir = 'ho_0';  prefix = 'rcnn_caffenet_pfc_ip';    format = 'obj';
+% exp_name = 'rcnn_caffenet_ho_pfc_ip1';    exp_dir = 'ho_1';  prefix = 'rcnn_caffenet_pfc_ip';    format = 'obj';
+% exp_name = 'rcnn_caffenet_ho_pconv_ip0';  exp_dir = 'ho_0';  prefix = 'rcnn_caffenet_pconv_ip';  format = 'obj';
+% exp_name = 'rcnn_caffenet_ho_pconv_ip1';  exp_dir = 'ho_1';  prefix = 'rcnn_caffenet_pconv_ip';  format = 'obj';
 
 
-% exp_name = 'rcnn_caffenet_ho_s';  exp_dir = 'ho_s';  prefix = 'rcnn_caffenet';
+% exp_name = 'rcnn_caffenet_ho_pconv_ip0';  exp_dir = 'ho_0';  prefix = 'rcnn_caffenet_pconv_ip';  format = 'obj';  score_blob = 'h';
+% exp_name = 'rcnn_caffenet_ho_pconv_ip0';  exp_dir = 'ho_0';  prefix = 'rcnn_caffenet_pconv_ip';  format = 'obj';  score_blob = 'o';
+% exp_name = 'rcnn_caffenet_ho_pconv_ip0';  exp_dir = 'ho_0';  prefix = 'rcnn_caffenet_pconv_ip';  format = 'obj';  score_blob = 'p';
 
-% exp_name = 'rcnn_caffenet_ho_p1fc_s';    exp_dir = 'ho_p1_s';  prefix = 'rcnn_caffenet_pfc';
-% exp_name = 'rcnn_caffenet_ho_p2fc_s';    exp_dir = 'ho_p2_s';  prefix = 'rcnn_caffenet_pfc';
-% exp_name = 'rcnn_caffenet_ho_p1conv_s';  exp_dir = 'ho_p1_s';  prefix = 'rcnn_caffenet_pconv';
-% exp_name = 'rcnn_caffenet_ho_p2conv_s';  exp_dir = 'ho_p2_s';  prefix = 'rcnn_caffenet_pconv';
+% exp_name = 'rcnn_caffenet_ho_pconv_ip1';  exp_dir = 'ho_1';  prefix = 'rcnn_caffenet_pconv_ip';  format = 'obj';  score_blob = 'h';
+% exp_name = 'rcnn_caffenet_ho_pconv_ip1';  exp_dir = 'ho_1';  prefix = 'rcnn_caffenet_pconv_ip';  format = 'obj';  score_blob = 'o';
+% exp_name = 'rcnn_caffenet_ho_pconv_ip1';  exp_dir = 'ho_1';  prefix = 'rcnn_caffenet_pconv_ip';  format = 'obj';  score_blob = 'p';
+
+
+% exp_name = 'rcnn_caffenet_ho_s';  exp_dir = 'ho_s';  prefix = 'rcnn_caffenet';  format = 'obj';
+
+% exp_name = 'rcnn_caffenet_ho_pfc_ip0_s';    exp_dir = 'ho_0_s';  prefix = 'rcnn_caffenet_pfc_ip';    format = 'obj';
+% exp_name = 'rcnn_caffenet_ho_pfc_ip1_s';    exp_dir = 'ho_1_s';  prefix = 'rcnn_caffenet_pfc_ip';    format = 'obj';
+% exp_name = 'rcnn_caffenet_ho_pconv_ip0_s';  exp_dir = 'ho_0_s';  prefix = 'rcnn_caffenet_pconv_ip';  format = 'obj';
+% exp_name = 'rcnn_caffenet_ho_pconv_ip1_s';  exp_dir = 'ho_1_s';  prefix = 'rcnn_caffenet_pconv_ip';  format = 'obj';
+
+% --------------------------------------------------------------------
+% Fast-RCNN
+% --------------------------------------------------------------------
+
+% exp_name = 'fast_rcnn_caffenet_union';  exp_dir = 'union';  prefix = 'fast_rcnn_caffenet';  format = 'all';
+
+% exp_name = 'fast_rcnn_caffenet_ho';  exp_dir = 'ho';  prefix = 'fast_rcnn_caffenet';  format = 'all';
+
+% exp_name = 'fast_rcnn_caffenet_ho_pfc_vec0';  exp_dir = 'ho_0';  prefix = 'fast_rcnn_caffenet_pfc_vec';  format = 'all';
+% exp_name = 'fast_rcnn_caffenet_ho_pfc_vec1';  exp_dir = 'ho_1';  prefix = 'fast_rcnn_caffenet_pfc_vec';  format = 'all';
+% exp_name = 'fast_rcnn_caffenet_ho_pfc_box0';  exp_dir = 'ho_0';  prefix = 'fast_rcnn_caffenet_pfc_box';  format = 'all';
+% exp_name = 'fast_rcnn_caffenet_ho_pfc_box1';  exp_dir = 'ho_1';  prefix = 'fast_rcnn_caffenet_pfc_box';  format = 'all';
+
+% exp_name = 'fast_rcnn_caffenet_ho_pfc_ip0';    exp_dir = 'ho_0';  prefix = 'fast_rcnn_caffenet_pfc_ip';    format = 'all';
+% exp_name = 'fast_rcnn_caffenet_ho_pfc_ip1';    exp_dir = 'ho_1';  prefix = 'fast_rcnn_caffenet_pfc_ip';    format = 'all';
+% exp_name = 'fast_rcnn_caffenet_ho_pconv_ip0';  exp_dir = 'ho_0';  prefix = 'fast_rcnn_caffenet_pconv_ip';  format = 'all';
+% exp_name = 'fast_rcnn_caffenet_ho_pconv_ip1';  exp_dir = 'ho_1';  prefix = 'fast_rcnn_caffenet_pconv_ip';  format = 'all';
+
+
+% exp_name = 'fast_rcnn_caffenet_ho_s';  exp_dir = 'ho_s';  prefix = 'fast_rcnn_caffenet';  format = 'all';
+
+% exp_name = 'fast_rcnn_caffenet_ho_pfc_ip0_s';    exp_dir = 'ho_0_s';  prefix = 'fast_rcnn_caffenet_pfc_ip';    format = 'all';
+% exp_name = 'fast_rcnn_caffenet_ho_pfc_ip1_s';    exp_dir = 'ho_1_s';  prefix = 'fast_rcnn_caffenet_pfc_ip';    format = 'all';
+% exp_name = 'fast_rcnn_caffenet_ho_pconv_ip0_s';  exp_dir = 'ho_0_s';  prefix = 'fast_rcnn_caffenet_pconv_ip';  format = 'all';
+% exp_name = 'fast_rcnn_caffenet_ho_pconv_ip1_s';  exp_dir = 'ho_1_s';  prefix = 'fast_rcnn_caffenet_pconv_ip';  format = 'all';
 
 
 eval_mode = 'def';  eval_one;  %#ok
