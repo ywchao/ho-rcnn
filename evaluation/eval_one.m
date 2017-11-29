@@ -3,10 +3,13 @@ config;
 
 min_overlap = 0.5;
 
+% assertions
+assert(ismember(score_blob,{'n/a','h','o','p'}) == 1);
+
 % set detection root
 det_root = './output/%s/hico_det_%s/%s_iter_%d/';
 det_root = sprintf(det_root, exp_dir, image_set, prefix, iter);
-if exist('score_blob','var')
+if ismember(score_blob, {'h','o','p'})
     det_root = [det_root(1:end-1) '_' score_blob '/'];
 end
 
@@ -15,7 +18,7 @@ res_root = './evaluation/result/%s/';
 res_root = sprintf(res_root, exp_name);
 res_file = '%s%s_%s_%06d.mat';
 res_file = sprintf(res_file, res_root, eval_mode, image_set, iter);
-if exist('score_blob','var')
+if ismember(score_blob, {'h','o','p'})
     res_file = [res_file(1:end-4) '_' score_blob '.mat'];
 end
 makedir(res_root);
@@ -46,10 +49,13 @@ num_image = numel(gt_bbox);
 
 % get object list
 det_file = './cache/det_base_caffenet/train2015/HICO_train2015_00000001.mat';
-assert(exist(det_file,'file') ~= 0);
-ld = load(det_file);
-list_coco_obj = cellfun(@(x)strrep(x,' ','_'),ld.cls,'UniformOutput',false);
-list_coco_obj = list_coco_obj(2:end)';
+if exist(det_file,'file') ~= 0
+    ld = load(det_file);
+    list_coco_obj = cellfun(@(x)strrep(x,' ','_'),ld.cls,'UniformOutput',false);
+    list_coco_obj = list_coco_obj(2:end)';
+else
+    list_coco_obj = get_list_coco_obj();
+end
 
 % get HOI index intervals for object classes
 obj_hoi_int = zeros(numel(list_coco_obj), 2);
@@ -61,8 +67,9 @@ for i = 1:numel(list_coco_obj)
 end
 
 fprintf('start evaluation\n');
-fprintf('setting:   default\n');
-fprintf('exp_name:  %s\n', exp_name);
+fprintf('setting:     %s\n', eval_mode);
+fprintf('exp_name:    %s\n', exp_name);
+fprintf('score_blob:  %s\n', score_blob)
 fprintf('\n')
 
 if exist(res_file, 'file')
@@ -219,8 +226,9 @@ s_ind = num_inst < 10;
 p_ind = num_inst >= 10;
 
 fprintf('\n');
-fprintf('setting:   default\n');
-fprintf('exp_name:  %s\n', exp_name);
+fprintf('setting:     %s\n', eval_mode);
+fprintf('exp_name:    %s\n', exp_name);
+fprintf('score_blob:  %s\n', score_blob)
 fprintf('\n');
 fprintf('  mAP / mRec (full):      %.4f / %.4f\n', mean(AP), mean(REC));
 fprintf('\n');
