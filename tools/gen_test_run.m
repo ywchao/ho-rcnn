@@ -1,12 +1,4 @@
 
-cluster = 'jiadeng_fluxoe_titanx';
-ppn = '1';
-mem = '4gb';
-working_dir = '/scratch/jiadeng_fluxoe/ywchao/ho-rcnn';
-batch_mode = 1;
-batch_size = 10;
-walltime = '00:16:00:00';
-
 image_set = 'test2015';
 iter = 150000;
 
