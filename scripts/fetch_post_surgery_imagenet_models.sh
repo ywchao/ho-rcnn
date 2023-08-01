@@ -11,7 +11,7 @@ if [ -f $FILE ]; then
   exit 0
 fi
 
-echo "Downloading precomputed HO-RCNN models (4.0G)..."
+echo "Downloading precomputed HO-RCNN models (411M)..."
 
 wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&id=$ID" -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p')&id=$ID" -O $FILE && rm -rf /tmp/cookies.txt
 
