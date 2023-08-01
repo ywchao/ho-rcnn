@@ -4,7 +4,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../output" && pwd )"
 cd $DIR
 
 FILE=precomputed_hoi_detection.tar.gz
-ID=1B0AjsYQhXfFmOWDAuOwLEBSaP6BsoYah
+ID=1jfhd5Uo1C6Q6qFJjBl9YyxjplOCJh51E
 
 if [ -f $FILE ]; then
   echo "File already exists..."

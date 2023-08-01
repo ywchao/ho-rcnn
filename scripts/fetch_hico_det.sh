@@ -4,7 +4,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../data" && pwd )"
 cd $DIR
 
 FILE=hico_20160224_det.tar.gz
-ID=1QZcJmGVlF9f4h-XLWe9Gkmnmj2z1gSnk
+ID=1dUByzVzM6z1Oq4gENa1-t0FLhr0UtDaS
 
 if [ -f $FILE ]; then
   echo "File already exists..."

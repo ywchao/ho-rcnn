@@ -4,7 +4,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../data" && pwd )"
 cd $DIR
 
 FILE=imagenet_models.tar.gz
-ID=1Xo_lxURiEFevbxzu9uGSCBzI3PKdvabk
+ID=1EKyc4anI1KxNfm9D0tj8D5dQ2pXl8Zzv
 
 if [ -f $FILE ]; then
   echo "File already exists..."

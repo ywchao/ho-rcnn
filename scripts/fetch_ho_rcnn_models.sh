@@ -4,7 +4,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../output" && pwd )"
 cd $DIR
 
 FILE=precomputed_ho_rcnn_models.tar.gz
-ID=1oGnt-EhuTjjdIcQh1c-GZvz5Ri87Z3xZ
+ID=1NjXjR4IG6pxtRZqnU1XHfyZPivd6GE7X
 
 if [ -f $FILE ]; then
   echo "File already exists..."

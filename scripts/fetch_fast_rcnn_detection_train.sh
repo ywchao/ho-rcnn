@@ -4,7 +4,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../cache" && pwd )"
 cd $DIR
 
 FILE=det_base_caffenet_train2015.tar.gz
-ID=11Mj1i9dfrgjiA4DEsaQJg1pUUhyboxq6
+ID=1v7w2joMVPb5HqXOxk8l4foD9dBpoRSrS
 
 if [ -f $FILE ]; then
   echo "File already exists..."
