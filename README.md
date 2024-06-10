@@ -6,7 +6,7 @@ Code for reproducing the results in the following paper:
 Yu-Wei Chao, Yunfan Liu, Xieyang Liu, Huayi Zeng, Jia Deng  
 IEEE Winter Conference on Applications of Computer Vision (WACV), 2018  
 
-Check out the [project site](http://www.umich.edu/~ywchao/hico/) for more details.
+Check out the [project site](https://umich-ywchao-hico.github.io/) for more details.
 
 ### Citing HO-RCNN
 
